@@ -1,6 +1,7 @@
 package com.txguard.transactionservice.common.entity;
 
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @MappedSuperclass
+@NoArgsConstructor
 
 public abstract class BaseEntity {
     
