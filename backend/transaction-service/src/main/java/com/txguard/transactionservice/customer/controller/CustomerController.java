@@ -3,6 +3,8 @@ package com.txguard.transactionservice.customer.controller;
 import com.txguard.transactionservice.customer.dto.CustomerRequest;
 import com.txguard.transactionservice.customer.dto.CustomerResponse;
 import com.txguard.transactionservice.customer.service.CustomerService;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +19,9 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping
-    public CustomerResponse createCustomer(@RequestBody CustomerRequest request) {
+    public CustomerResponse createCustomer(
+        @Valid @RequestBody CustomerRequest request) {
+
         return customerService.createCustomer(request);
     }
 
@@ -33,8 +37,8 @@ public class CustomerController {
 
     @PutMapping("/{id}")
     public CustomerResponse updateCustomer(
-            @PathVariable UUID id,
-            @RequestBody CustomerRequest request) {
+        @PathVariable UUID id,
+        @Valid @RequestBody CustomerRequest request) {
 
         return customerService.updateCustomer(id, request);
     }

@@ -1,6 +1,6 @@
 package com.txguard.transactionservice.customer.service;
 
-
+import lombok.extern.slf4j.Slf4j;   
 import com.txguard.transactionservice.customer.dto.CustomerRequest;
 import com.txguard.transactionservice.customer.dto.CustomerResponse;
 import com.txguard.transactionservice.customer.entity.Customer;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
@@ -22,10 +23,11 @@ public class CustomerServiceImpl implements CustomerService {
 
 @Override
 public CustomerResponse createCustomer(CustomerRequest request) {
-
+    log.info("Creating customer with email {}", request.getEmail());
     if (customerRepository.existsByEmail(request.getEmail())) {
         throw new DuplicateResourceException("Email already exists");
     }
+    
 
     if (customerRepository.existsByMobileNumber(request.getMobileNumber())) {
         throw new DuplicateResourceException("Mobile number already exists");
@@ -38,6 +40,8 @@ public CustomerResponse createCustomer(CustomerRequest request) {
     Customer customer = CustomerMapper.toEntity(request);
 
     Customer savedCustomer = customerRepository.save(customer);
+
+    log.info("Customer {} created successfully", savedCustomer.getId());
 
     return CustomerMapper.toResponse(savedCustomer);
 }
